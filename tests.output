@@ -1,0 +1,9 @@
+00:00 +0: loading /Users/danielclemente/Desktop/untitled/—                                                                                                                                             00:00 +0 -1: loading /Users/danielclemente/Desktop/untitled/— [E]                                                                                                                                      
+  Failed to load "/Users/danielclemente/Desktop/untitled/—": Does not exist.
+00:00 +0 -2: loading /Users/danielclemente/Desktop/untitled/machine [E]                                                                                                                                
+  Failed to load "/Users/danielclemente/Desktop/untitled/machine": Does not exist.
+00:00 +0 -3: loading /Users/danielclemente/Desktop/untitled/— [E]                                                                                                                                      
+  Failed to load "/Users/danielclemente/Desktop/untitled/—": Does not exist.
+00:00 +0 -4: loading /Users/danielclemente/Desktop/untitled/coverage [E]                                                                                                                               
+  Failed to load "/Users/danielclemente/Desktop/untitled/coverage": Does not exist.
+00:00 +0 -4: Some tests failed.                                                                                                                                                                        
