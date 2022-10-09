@@ -603,7 +603,11 @@ class _OtherProfileWidgetState extends State<OtherProfileWidget> {
                                                                   height: 65,
                                                                   fit: BoxFit.cover,
                                                                 )),
-                                                            Text(song?.name ?? '')
+                                                            Container(
+                                                              height: 35,
+                                                              child: Text(song?.name ?? '')
+                                                            )
+
                                                           ],
                                                         )),
                                                   ),

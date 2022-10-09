@@ -73,21 +73,28 @@ class _ArtistWidgetState extends State<ArtistWidget> {
                 children: [
                   Padding(
                     padding: EdgeInsetsDirectional.all(10),
-                    child: ListTile(
-                      leading: ClipRRect(
-                        borderRadius: BorderRadius.circular(50),
-                        child: CachedNetworkImage(
-                          imageUrl: widget.artist.image!,
-                          fit: BoxFit.cover,
-                          placeholder: (context, url) => new CircularProgressIndicator(),
+                    child: Row(
+                      children: [
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(50),
+                          child: CachedNetworkImage(
+                            width: 100,
+                            height: 100,
+                            imageUrl: widget.artist.image!,
+                            fit: BoxFit.cover,
+                            placeholder: (context, url) => new CircularProgressIndicator(),
+                          ),
                         ),
-                      ),
-                      title: Text(
-                        widget.artist.name,
-                        style: Tema.of(context)
-                            .subtitle1
-                            .override(fontFamily: 'Nunito', color: Tema.of(context).primaryColor),
-                      ),
+                        Padding(
+                            padding: EdgeInsetsDirectional.fromSTEB(15, 0, 0, 0),
+                            child: Text(
+                              widget.artist.name,
+                              style: Tema.of(context)
+                                  .title1
+                                  .override(fontFamily: 'Nunito', color: Tema.of(context).primaryColor),
+                            ),
+                        )
+                      ],
                     ),
                   ),
                   Row(
@@ -153,6 +160,7 @@ class _ArtistWidgetState extends State<ArtistWidget> {
                   ),
                   Expanded(
                     child: SingleChildScrollView(
+                      padding: EdgeInsetsDirectional.fromSTEB(10, 10, 10, 10),
                         child: Column(children: [
                       !showAlbums
                           ? FutureBuilder<List<Event>?>(
@@ -405,12 +413,15 @@ class _ArtistWidgetState extends State<ArtistWidget> {
                                                                   )
                                                                 ],
                                                               )
-                                                            : GestureDetector(
+                                                            : Row(
+                                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                          children: [
+                                                            GestureDetector(
                                                                 onTap: () async {
                                                                   final artists =
                                                                       await artistBloc.searchArtist(
-                                                                              events[index]
-                                                                                  .lineUp[0]) ??
+                                                                          events[index]
+                                                                              .lineUp[0]) ??
                                                                           [];
                                                                   final id = await artistBloc
                                                                       .getArtistId(artists[0].name);
@@ -422,11 +433,11 @@ class _ArtistWidgetState extends State<ArtistWidget> {
                                                                               BlocProvider(
                                                                                   child: ArtistWidget(
                                                                                       artist:
-                                                                                          artists[
-                                                                                              0],
+                                                                                      artists[
+                                                                                      0],
                                                                                       id: id),
                                                                                   bloc:
-                                                                                      ArtistBloc())),
+                                                                                  ArtistBloc())),
                                                                     );
                                                                   }
                                                                 },
@@ -436,37 +447,65 @@ class _ArtistWidgetState extends State<ArtistWidget> {
                                                                     child: Container(
                                                                       decoration: BoxDecoration(
                                                                         color:
-                                                                            Tema.of(context).white,
+                                                                        Tema.of(context).white,
                                                                         borderRadius:
-                                                                            BorderRadius.circular(
-                                                                                10),
+                                                                        BorderRadius.circular(
+                                                                            10),
                                                                       ),
                                                                       child: Padding(
                                                                           padding:
-                                                                              EdgeInsetsDirectional
-                                                                                  .fromSTEB(10, 10,
-                                                                                      10, 10),
-                                                                          child: Column(
+                                                                          EdgeInsetsDirectional
+                                                                              .fromSTEB(10, 10,
+                                                                              10, 10),
+                                                                          child: Row(
+                                                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                                             crossAxisAlignment:
-                                                                                CrossAxisAlignment
-                                                                                    .start,
+                                                                            CrossAxisAlignment
+                                                                                .start,
                                                                             children: [
                                                                               Text(
                                                                                 events[index]
                                                                                     .lineUp[0],
                                                                                 style: Tema.of(
-                                                                                        context)
+                                                                                    context)
                                                                                     .subtitle1
                                                                                     .override(
-                                                                                        fontFamily:
-                                                                                            'Nunito',
-                                                                                        color: Tema.of(
-                                                                                                context)
-                                                                                            .primaryColor),
+                                                                                    fontFamily:
+                                                                                    'Nunito',
+                                                                                    color: Tema.of(
+                                                                                        context)
+                                                                                        .primaryColor),
                                                                               ),
                                                                             ],
                                                                           )),
                                                                     ))),
+                                                            TextButton(
+                                                                onPressed: () async {
+                                                                  await Navigator.push(
+                                                                    context,
+                                                                    MaterialPageRoute(
+                                                                        builder: (context) => BlocProvider(
+                                                                            child: EventDetailsWidget(event: events[index]),
+                                                                            bloc: EventDetailsBloc())),
+                                                                  );
+                                                                },
+                                                                child: Container(
+                                                                  decoration: BoxDecoration(
+                                                                    color: Tema.of(context).primaryColor,
+                                                                    borderRadius: BorderRadius.circular(10),
+                                                                  ),
+                                                                  child: Padding(
+                                                                      padding: EdgeInsetsDirectional.fromSTEB(
+                                                                          10, 5, 10, 5),
+                                                                      child: Text(
+                                                                        '+ info',
+                                                                        style: Tema.of(context).bodyText1.override(
+                                                                            fontFamily: 'Nunito',
+                                                                            color: Tema.of(context).white),
+                                                                      )),
+                                                                ))
+                                                          ],
+                                                        ),
                                                         Padding(
                                                             padding: EdgeInsetsDirectional.fromSTEB(
                                                                 10, 5, 10, 10),

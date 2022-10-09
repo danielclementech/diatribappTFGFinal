@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:diatribapp/blocs/profile_bloc.dart';
 import 'package:diatribapp/models/user_record.dart';
 import 'package:diatribapp/profile/other_profile_page.dart';
@@ -145,8 +146,8 @@ class _FriendsPageWidgetState extends State<FriendsPageWidget> {
                                                                 ClipRRect(
                                                                   borderRadius:
                                                                       BorderRadius.circular(8),
-                                                                  child: Image.network(
-                                                                    users[index]!.avatarUrl ?? '',
+                                                                  child: CachedNetworkImage(
+                                                                    imageUrl: users[index]!.avatarUrl ?? '',
                                                                     width: 80,
                                                                     height: 80,
                                                                     fit: BoxFit.cover,
@@ -298,8 +299,8 @@ class _FriendsPageWidgetState extends State<FriendsPageWidget> {
                               children: [
                                 ClipRRect(
                                   borderRadius: BorderRadius.circular(8),
-                                  child: Image.network(
-                                    user!.avatarUrl ?? '',
+                                  child: CachedNetworkImage(
+                                    imageUrl: user!.avatarUrl ?? '',
                                     width: 80,
                                     height: 80,
                                     fit: BoxFit.cover,

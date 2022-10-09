@@ -173,7 +173,7 @@ class FirebaseServices {
     final ref = firebaseFirestore.collection('posts').doc();
     ref.set({
       'event': event,
-      'wishlist': wishlist,
+      'typeOfPost': wishlist ? 'wishlist_event' : 'event',
       'user': currentUserReference,
       'created_time': DateTime.now()
     });

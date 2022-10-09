@@ -206,10 +206,10 @@ class ProfileBloc implements Bloc {
       _user_repository.newChat(userA, userB);
 
   Future<ChatRecord?> chatExists(DocumentReference userB) async {
-    final chatsA = await _user_repository.queryChatsRecordOnce((queryBuilder) => queryBuilder
+    final chatsA = await _user_repository.queryChatsRecordOnce(queryBuilder: (queryBuilder) => queryBuilder
         .where('user_a', isEqualTo: currentUserDocument!.reference)
         .where('user_b', isEqualTo: userB));
-    final chatsB = await _user_repository.queryChatsRecordOnce((queryBuilder) => queryBuilder
+    final chatsB = await _user_repository.queryChatsRecordOnce(queryBuilder: (queryBuilder) => queryBuilder
         .where('user_b', isEqualTo: currentUserDocument!.reference)
         .where('user_a', isEqualTo: userB));
     if (chatsA.isNotEmpty) {

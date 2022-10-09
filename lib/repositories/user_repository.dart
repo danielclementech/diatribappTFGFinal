@@ -53,8 +53,17 @@ class UserRepository {
           bool singleRecord = false}) =>
       _firebaseServices.queryFriendRequestsRecord(queryBuilder: queryBuilder);
 
-  Future<List<ChatRecord?>> queryChatsRecordOnce(Query Function(Query) queryBuilder) =>
+  Future<List<ChatRecord?>> queryChatsRecordOnce(
+      {required Query Function(Query) queryBuilder,
+        int limit = -1,
+        bool singleRecord = false}) =>
       _firebaseServices.queryChatsRecordOnce(queryBuilder: queryBuilder);
+
+  Stream<List<ChatRecord?>> queryChatsRecord(
+      {required Query Function(Query) queryBuilder,
+        int limit = -1,
+        bool singleRecord = false}) =>
+      _firebaseServices.queryChatsRecord(queryBuilder: queryBuilder);
 
   Stream<List<ChatMessagesRecord?>> queryChatMessagesRecord(
           {required Query Function(Query) queryBuilder}) =>

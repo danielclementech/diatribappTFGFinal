@@ -14,10 +14,11 @@ import 'models/Song.dart';
 import 'models/chat_record.dart';
 
 class ChatPageWidget extends StatefulWidget {
-  const ChatPageWidget({Key? key, required this.chat, required this.user}) : super(key: key);
+  const ChatPageWidget({Key? key, required this.chat, required this.user, this.bloc}) : super(key: key);
 
   final ChatRecord chat;
   final UserRecord user;
+  final ChatBloc? bloc;
 
   @override
   _ChatPageWidgetState createState() => _ChatPageWidgetState();
@@ -37,7 +38,7 @@ class _ChatPageWidgetState extends State<ChatPageWidget> {
 
   @override
   Widget build(BuildContext context) {
-    chatBloc = BlocProvider.of<ChatBloc>(context);
+    chatBloc = widget.bloc ?? BlocProvider.of<ChatBloc>(context);
     return MaterialApp(
         home: Scaffold(
             key: scaffoldKey,
@@ -92,6 +93,7 @@ class _ChatPageWidgetState extends State<ChatPageWidget> {
                           itemCount: messages?.length,
                           shrinkWrap: true,
                           reverse: true,
+                          physics: NeverScrollableScrollPhysics(),
                           itemBuilder: (context, index) {
                             final message = messages![index];
                             return FutureBuilder<Song>(
@@ -170,12 +172,14 @@ class _ChatPageWidgetState extends State<ChatPageWidget> {
                                                       ? CrossAxisAlignment.end : CrossAxisAlignment.start,
                                                   children: [
                                                     Padding(
-                                                      padding: EdgeInsetsDirectional.fromSTEB(10, 0, 0, 0),
+                                                      padding:  message.from == currentUserDocument!.reference
+                                                          ? EdgeInsetsDirectional.fromSTEB(10, 0, 0, 0)
+                                                          : EdgeInsetsDirectional.fromSTEB(0, 0, 10, 0),
                                                       child: SongWidget(song: song!),
                                                     ),
                                                     message.comment != null ?
                                                     Padding(
-                                                        padding: EdgeInsetsDirectional.fromSTEB(10, 10, 15, 15),
+                                                        padding: EdgeInsetsDirectional.fromSTEB(15, 10, 15, 15),
                                                         child: Text(message.comment!,
                                                           style: Tema.of(context).subtitle3.override(
                                                               fontFamily: 'Nunito',
@@ -206,7 +210,6 @@ class _ChatPageWidgetState extends State<ChatPageWidget> {
                       onTap: () async {
                         TextEditingController searchController = TextEditingController();
                         List<Song> songsResult = [];
-
                         await showDialog(
                           context: context,
                           builder: (alertDialogContext) {
@@ -590,6 +593,9 @@ class _ChatPageWidgetState extends State<ChatPageWidget> {
                             });
                           },
                         );
+                        setState(() {
+
+                        });
                       },
                       child: Container(
                         decoration: BoxDecoration(

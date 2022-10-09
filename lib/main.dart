@@ -1,6 +1,7 @@
 import 'package:diatribapp/blocs/artist_bloc.dart';
 import 'package:diatribapp/blocs/news_bloc.dart';
 import 'package:diatribapp/blocs/profile_bloc.dart';
+import 'package:diatribapp/chat_page.dart';
 import 'package:diatribapp/feed_page.dart';
 import 'package:diatribapp/my_shows.dart';
 import 'package:diatribapp/profile/profile_page.dart';
@@ -12,8 +13,10 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:generic_bloc_provider/generic_bloc_provider.dart';
 
+import 'blocs/chat_bloc.dart';
 import 'blocs/posts_bloc.dart';
 import 'blocs/user_bloc.dart';
+import 'chats_page.dart';
 import 'models/Event.dart';
 import 'services/firebase_options.dart';
 
@@ -116,7 +119,7 @@ class _NavBarPageState extends State<NavBarPage> {
     final tabs = {
       'Feed': BlocProvider(bloc: PostsBloc(), child: FeedWidget()),
       'News': BlocProvider(bloc: NewsBloc(), child: MyShowsWidget()),
-      'Search': BlocProvider(bloc: ArtistBloc(), child: SearchArtistWidget()),
+      'Chats': BlocProvider(bloc: ChatBloc(), child: ChatsPageWidget()),
       'Profile': BlocProvider(bloc: ProfileBloc(), child: ProfileWidget()),
     };
     final currentIndex = tabs.keys.toList().indexOf(_currentPage);
@@ -158,14 +161,14 @@ class _NavBarPageState extends State<NavBarPage> {
           ),
           BottomNavigationBarItem(
             icon: Icon(
-              Icons.search_rounded,
+              Icons.chat_bubble_outline_outlined,
               size: 24,
             ),
             activeIcon: Icon(
-              Icons.search_outlined,
+              Icons.chat_bubble_rounded,
               size: 24,
             ),
-            label: 'Search',
+            label: 'Chats',
             tooltip: '',
           ),
           BottomNavigationBarItem(

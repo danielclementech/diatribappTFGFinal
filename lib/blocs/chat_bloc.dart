@@ -1,7 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:diatribapp/models/chat_record.dart';
 import 'package:diatribapp/repositories/spotify_repository.dart';
 import 'package:diatribapp/repositories/user_repository.dart';
+import 'package:diatribapp/util.dart';
 import 'package:generic_bloc_provider/generic_bloc_provider.dart';
+import 'package:async/async.dart';
 
 import '../models/Song.dart';
 import '../models/chat_messages_record.dart';
@@ -15,21 +18,39 @@ class ChatBloc implements Bloc {
 
   Stream<List<ChatMessagesRecord?>> getMessages(DocumentReference chat) =>
       _user_repository.queryChatMessagesRecord(
-          queryBuilder: (queryBuilder) => queryBuilder
-              .where('chat', isEqualTo: chat)
-              .where('time', isNull: false)
-              .orderBy('time', descending: true));
+          queryBuilder: (queryBuilder) =>
+              queryBuilder
+                  .where('chat', isEqualTo: chat)
+                  .where('time', isNull: false)
+                  .orderBy('time', descending: true));
 
-  void newChatMessage(
-          DocumentReference from, DocumentReference to, DocumentReference chat, String song, String comment) =>
+  void newChatMessage(DocumentReference from, DocumentReference to, DocumentReference chat,
+      String song, String comment) =>
       _user_repository.newChatMessage(from, to, chat, song, comment);
 
   Future<Song> getSong(String songId) => _spotify_repository.getSong(songId);
+
   Future<List<Song>?> searchSong(String word, {int limit = 20, int offset = 0}) =>
       _spotify_repository.searchSong(word, limit: limit, offset: offset);
 
   Future<List<Song>> getTopSongsShort() async =>
       await _spotify_repository.getTopSongs('short_term');
+
+  Future<List<ChatRecord?>> getChats() async {
+    final chatsA = await _user_repository.queryChatsRecordOnce(
+        queryBuilder: (queryBuilder) =>
+            queryBuilder
+                .where('user_a', isEqualTo: currentUserDocument!.reference));
+    final chatsB = await _user_repository.queryChatsRecordOnce(
+        queryBuilder: (queryBuilder) =>
+            queryBuilder
+                .where('user_b', isEqualTo: currentUserDocument!.reference));
+
+    return chatsA + chatsB;
+  }
+
+
+
 
   @override
   void dispose() {}
