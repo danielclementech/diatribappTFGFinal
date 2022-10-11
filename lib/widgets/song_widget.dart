@@ -18,20 +18,10 @@ class SongWidget extends StatefulWidget {
 class _SongWidgetState extends State<SongWidget> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
-  String artistsString = '';
-
   final Image noImage = Image.asset("assets/images/icono.png");
 
   @override
   void initState() {
-    int index = 0;
-    for (var artist in widget.song.artists) {
-      artistsString = artistsString + artist.name;
-      if (index + 1 < widget.song.artists.length) {
-        artistsString = artistsString + ', ';
-      }
-      ++index;
-    }
     super.initState();
   }
 
@@ -95,7 +85,7 @@ class _SongWidgetState extends State<SongWidget> {
                             Container(
                               width: MediaQuery.of(context).size.width - 250,
                               child: Text(
-                                artistsString,
+                                getArtistsString(),
                                 style: Tema.of(context).bodyText1.override(
                                     fontFamily: 'Nunito', color: Tema.of(context).secondaryText),
                               ),
@@ -108,5 +98,17 @@ class _SongWidgetState extends State<SongWidget> {
             ),
           ),
         ));
+  }
+  String getArtistsString() {
+    String artistsString = '';
+    int index = 0;
+    for (var artist in widget.song.artists) {
+      artistsString = artistsString + artist.name;
+      if (index + 1 < widget.song.artists.length) {
+        artistsString = artistsString + ', ';
+      }
+      ++index;
+    }
+    return artistsString;
   }
 }

@@ -20,7 +20,6 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../blocs/events_bloc.dart';
 import '../blocs/song_bloc.dart';
-import '../models/Artist.dart';
 import '../models/Song.dart';
 import '../models/post_record.dart';
 

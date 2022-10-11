@@ -86,6 +86,7 @@ class _ShowsWishlistPageWidgetState extends State<ShowsWishlistPageWidget> {
                       return Padding(
                           padding: EdgeInsetsDirectional.fromSTEB(10, 10, 10, 0),
                           child: Container(
+                            width: MediaQuery.of(context).size.width,
                             decoration: BoxDecoration(
                               color: Tema.of(context).white,
                               borderRadius: BorderRadius.circular(10),

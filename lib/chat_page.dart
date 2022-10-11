@@ -6,6 +6,7 @@ import 'package:diatribapp/util.dart';
 import 'package:diatribapp/widgets/song_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:generic_bloc_provider/generic_bloc_provider.dart';
 import 'package:timeago/timeago.dart' as timeago;
 
@@ -31,9 +32,18 @@ class _ChatPageWidgetState extends State<ChatPageWidget> {
   TextEditingController messageController = TextEditingController(text: '');
   String messageComment = '';
 
+  ScrollController controller = ScrollController(initialScrollOffset: 10000);
+
   @override
   void initState() {
     super.initState();
+    SchedulerBinding.instance?.addPostFrameCallback((_) {
+      controller.animateTo(
+        controller.position.maxScrollExtent,
+        duration: const Duration(milliseconds: 1),
+        curve: Curves.easeOut,
+      );
+    });
   }
 
   @override
@@ -72,8 +82,7 @@ class _ChatPageWidgetState extends State<ChatPageWidget> {
                 child: Column(
               children: [
                 Expanded(
-                  child: SingleChildScrollView(
-                      child: StreamBuilder<List<ChatMessagesRecord?>>(
+                  child: StreamBuilder<List<ChatMessagesRecord?>>(
                     stream: chatBloc.getMessages(widget.chat.reference),
                     builder: (context, snapshot) {
                       // Customize what your widget looks like when it's loading.
@@ -105,52 +114,52 @@ class _ChatPageWidgetState extends State<ChatPageWidget> {
                                       children: [
                                         message.from == currentUserDocument!.reference
                                             ? Row(
-                                                mainAxisAlignment: MainAxisAlignment.end,
-                                                children: [
-                                                  Padding(
-                                                    padding: EdgeInsetsDirectional.fromSTEB(
-                                                        10, 10, 10, 0),
-                                                    child: Text(
-                                                      timeago.format(message.time, locale: 'es'),
-                                                    ),
-                                                  ),
-                                                  Padding(
-                                                      padding: EdgeInsetsDirectional.fromSTEB(
-                                                          10, 10, 10, 0),
-                                                      child: ClipRRect(
-                                                          borderRadius: BorderRadius.circular(10),
-                                                          child: CachedNetworkImage(
-                                                            imageUrl:
-                                                                currentUserDocument!.avatarUrl ??
-                                                                    '',
-                                                            width: 50,
-                                                            height: 50,
-                                                            fit: BoxFit.cover,
-                                                          )))
-                                                ],
-                                              )
+                                          mainAxisAlignment: MainAxisAlignment.end,
+                                          children: [
+                                            Padding(
+                                              padding: EdgeInsetsDirectional.fromSTEB(
+                                                  10, 10, 10, 0),
+                                              child: Text(
+                                                timeago.format(message.time, locale: 'es'),
+                                              ),
+                                            ),
+                                            Padding(
+                                                padding: EdgeInsetsDirectional.fromSTEB(
+                                                    10, 10, 10, 0),
+                                                child: ClipRRect(
+                                                    borderRadius: BorderRadius.circular(10),
+                                                    child: CachedNetworkImage(
+                                                      imageUrl:
+                                                      currentUserDocument!.avatarUrl ??
+                                                          '',
+                                                      width: 50,
+                                                      height: 50,
+                                                      fit: BoxFit.cover,
+                                                    )))
+                                          ],
+                                        )
                                             : Row(
-                                                mainAxisAlignment: MainAxisAlignment.start,
-                                                children: [
-                                                    Padding(
-                                                        padding: EdgeInsetsDirectional.fromSTEB(
-                                                            10, 10, 10, 0),
-                                                        child: ClipRRect(
-                                                            borderRadius: BorderRadius.circular(10),
-                                                            child: CachedNetworkImage(
-                                                              imageUrl: widget.user.avatarUrl ?? '',
-                                                              width: 50,
-                                                              height: 50,
-                                                              fit: BoxFit.cover,
-                                                            ))),
-                                                    Padding(
-                                                      padding: EdgeInsetsDirectional.fromSTEB(
-                                                          10, 10, 10, 0),
-                                                      child: Text(
-                                                        timeago.format(message.time, locale: 'es'),
-                                                      ),
-                                                    ),
-                                                  ]),
+                                            mainAxisAlignment: MainAxisAlignment.start,
+                                            children: [
+                                              Padding(
+                                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                                      10, 10, 10, 0),
+                                                  child: ClipRRect(
+                                                      borderRadius: BorderRadius.circular(10),
+                                                      child: CachedNetworkImage(
+                                                        imageUrl: widget.user.avatarUrl ?? '',
+                                                        width: 50,
+                                                        height: 50,
+                                                        fit: BoxFit.cover,
+                                                      ))),
+                                              Padding(
+                                                padding: EdgeInsetsDirectional.fromSTEB(
+                                                    10, 10, 10, 0),
+                                                child: Text(
+                                                  timeago.format(message.time, locale: 'es'),
+                                                ),
+                                              ),
+                                            ]),
                                         Padding(
                                             padding: message.from == currentUserDocument!.reference
                                                 ? EdgeInsetsDirectional.fromSTEB(50, 2, 10, 10)
@@ -200,7 +209,7 @@ class _ChatPageWidgetState extends State<ChatPageWidget> {
                         );
                       }
                     },
-                  )),
+                  )
                 ),
                 InkWell(
                     child: Container(
@@ -228,10 +237,10 @@ class _ChatPageWidgetState extends State<ChatPageWidget> {
                                             children: [
                                               Container(
                                                   height: 50,
-                                                  width: MediaQuery.of(context).size.width,
+                                                  width: 230,
                                                   child: Padding(
                                                     padding:
-                                                        EdgeInsetsDirectional.fromSTEB(10, 0, 0, 0),
+                                                        EdgeInsetsDirectional.fromSTEB(10, 0, 20, 0),
                                                     child: TextField(
                                                       controller: searchController,
                                                       decoration: InputDecoration(
@@ -245,12 +254,14 @@ class _ChatPageWidgetState extends State<ChatPageWidget> {
                                                                 ),
                                                         hintText: 'Busca una canción...',
                                                       ),
-                                                      onChanged: (value) {
-                                                        setState(() async {
-                                                          songsResult =
-                                                              await chatBloc.searchSong(value) ??
-                                                                  [];
-                                                        });
+                                                      onSubmitted: (value) {
+                                                        if(value.length >= 3) {
+                                                          setState(() async {
+                                                            songsResult =
+                                                                await chatBloc.searchSong(value) ??
+                                                                    [];
+                                                          });
+                                                        }
                                                       },
                                                     ),
                                                   )),
@@ -372,6 +383,9 @@ class _ChatPageWidgetState extends State<ChatPageWidget> {
                                                                                             index]
                                                                                         .id,
                                                                                 messageComment);
+                                                                                setState(() {
+                                                                                  messageComment = '';
+                                                                                });
                                                                                 Navigator.pop(
                                                                                     alertDialogContext);
                                                                               },
@@ -408,6 +422,7 @@ class _ChatPageWidgetState extends State<ChatPageWidget> {
                                                                 );
                                                               },
                                                             );
+                                                            Navigator.pop(alertDialogContext);
                                                           });
                                                     },
                                                   )
@@ -594,7 +609,11 @@ class _ChatPageWidgetState extends State<ChatPageWidget> {
                           },
                         );
                         setState(() {
-
+                          controller.animateTo(
+                            controller.position.maxScrollExtent,
+                            duration: const Duration(milliseconds: 1),
+                            curve: Curves.easeOut,
+                          );
                         });
                       },
                       child: Container(

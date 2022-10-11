@@ -173,7 +173,6 @@ class ProfileBloc implements Bloc {
       songsList,
       mySongsList,
     ];
-    debugPrint(songsLists.toString());
     final songs = songsLists
         .fold<Set>(songsLists.first.toSet(), (a, b) => a.intersection(b.toSet()))
         .toList() as List<String>;

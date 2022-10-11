@@ -1,11 +1,8 @@
-import 'package:diatribapp/blocs/artist_bloc.dart';
 import 'package:diatribapp/blocs/news_bloc.dart';
 import 'package:diatribapp/blocs/profile_bloc.dart';
-import 'package:diatribapp/chat_page.dart';
 import 'package:diatribapp/feed_page.dart';
 import 'package:diatribapp/my_shows.dart';
 import 'package:diatribapp/profile/profile_page.dart';
-import 'package:diatribapp/search_artist_page.dart';
 import 'package:diatribapp/sign_in_page.dart';
 import 'package:diatribapp/tema.dart';
 import 'package:diatribapp/util.dart';

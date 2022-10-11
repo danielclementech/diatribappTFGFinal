@@ -1,17 +1,13 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:diatribapp/chat_page.dart';
-import 'package:diatribapp/models/chat_messages_record.dart';
 import 'package:diatribapp/models/user_record.dart';
 import 'package:diatribapp/tema.dart';
 import 'package:diatribapp/util.dart';
-import 'package:diatribapp/widgets/song_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:generic_bloc_provider/generic_bloc_provider.dart';
-import 'package:timeago/timeago.dart' as timeago;
 
 import 'blocs/chat_bloc.dart';
-import 'models/Song.dart';
 import 'models/chat_record.dart';
 
 class ChatsPageWidget extends StatefulWidget {
@@ -75,7 +71,6 @@ class _ChatsPageWidgetState extends State<ChatsPageWidget> {
                         );
                       } else {
                         final chats = snapshot.data;
-                        debugPrint(chats.toString());
                         return ListView.builder(
                           itemCount: chats?.length,
                           shrinkWrap: true,

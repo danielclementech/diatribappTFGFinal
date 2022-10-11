@@ -104,14 +104,16 @@ class _ShowslistPageWidgetState extends State<ShowslistPageWidget> {
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Padding(
-                                      padding: EdgeInsetsDirectional.fromSTEB(10, 10, 10, 10),
-                                      child: Text(
-                                        show.name,
-                                        style: Tema.of(context).title3.override(
-                                            fontFamily: 'Nunito',
-                                            color: Tema.of(context).primaryColor),
-                                      )),
+                                  Expanded(
+                                      child: Padding(
+                                          padding: EdgeInsetsDirectional.fromSTEB(10, 10, 10, 10),
+                                          child: Text(
+                                            show.name,
+                                            style: Tema.of(context).title3.override(
+                                                fontFamily: 'Nunito',
+                                                color: Tema.of(context).primaryColor),
+                                          ))
+                                  ),
                                   Container(
                                       decoration: BoxDecoration(
                                         color: Tema.of(context).alternate,

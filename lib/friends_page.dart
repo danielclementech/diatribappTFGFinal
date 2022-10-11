@@ -153,7 +153,7 @@ class _FriendsPageWidgetState extends State<FriendsPageWidget> {
                                                                     fit: BoxFit.cover,
                                                                   ),
                                                                 ),
-                                                                Padding(
+                                                                Expanded(child: Padding(
                                                                     padding: EdgeInsetsDirectional
                                                                         .fromSTEB(10, 0, 0, 0),
                                                                     child: Text(
@@ -161,8 +161,9 @@ class _FriendsPageWidgetState extends State<FriendsPageWidget> {
                                                                           ? users[index]!.name!
                                                                           : '',
                                                                       style:
-                                                                          Tema.of(context).title1,
-                                                                    ))
+                                                                      Tema.of(context).title1,
+                                                                    )))
+
                                                               ],
                                                             )),
                                                       ));

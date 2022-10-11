@@ -4,7 +4,6 @@ import 'package:diatribapp/repositories/spotify_repository.dart';
 import 'package:diatribapp/repositories/user_repository.dart';
 import 'package:diatribapp/util.dart';
 import 'package:generic_bloc_provider/generic_bloc_provider.dart';
-import 'package:async/async.dart';
 
 import '../models/Song.dart';
 import '../models/chat_messages_record.dart';
